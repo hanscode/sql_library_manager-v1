@@ -1,0 +1,21 @@
+{
+  "name": "sql_library_manager",
+  "version": "1.0.0",
+  "description": "A web application to manage a library's collection of books.",
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./bin/www"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "^4.17.1",
+    "http-errors": "^1.6.3",
+    "moment": "^2.24.0",
+    "morgan": "~1.9.1",
+    "nodemon": "^1.19.2",
+    "pug": "^2.0.4",
+    "sequelize": "^5.18.4",
+    "sqlite3": "^5.0.2"
+  }
+}
