@@ -1,0 +1,7 @@
+extends layout
+
+block content
+
+    h1= `${err.status} - ${title}`
+    p= `${err.message}`
+    a.button(href='/books') Go to Homepage &rarr;
