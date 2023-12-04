@@ -5,6 +5,12 @@ block content
     p
         a.button(href='/books/new') Create New Book
 
+    form.search-form(action='/books', method='get')
+        div.search-container
+            input.search-input(type='search', name='search', placeholder='Search...' value=`${query}`)
+            input.search-submit(type='submit', value="search")
+            if query
+                a.button.clear-search(href='/books') Reset
     table
         thead
             tr
