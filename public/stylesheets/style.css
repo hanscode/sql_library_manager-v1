@@ -17,6 +17,7 @@ a:hover {
 a.button,
 input[type="submit"] {
   color: white;
+  border: 1px solid #019875;
   background: #019875;
   font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
   padding: 10px 14px 12px;
@@ -124,4 +125,39 @@ input.search-submit, a.button.clear-search {
   margin-left: 5px;
   font-weight: bold;
   text-transform: capitalize;
+}
+
+.pagination {
+   font-size: 16px;
+    gap: 16px;
+    margin-top: 24px;
+    display: flex;
+    justify-content:flex-start;
+    align-items:center;
+    flex-direction: row;
+    margin-top: 40px;
+}
+
+.pagination ul {
+   list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 0;
+}
+
+a.button.page_btn {
+  margin: 0;
+}
+
+li:not(.active) a.button.page_btn {
+  border: 1px solid #d1d5db;
+  background-color: #f9fafb;
+  color: #000000;
+}
+
+li:not(.active) a.button.page_btn:hover {
+  color: white;
+  background-color: #01b189;
+  border: 1px solid #01b189;
 }

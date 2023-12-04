@@ -16,20 +16,50 @@ function asyncHandler(cb) {
 
 /* Shows the full list of books */
 router.get('/', asyncHandler(async (req, res) => {
+
+  let limit = 5;   // number of records per page
+  let offset = 0;
+  let activePage = req.query.page ? req.query.page : 1;
+  const paginationNumbers = [];
   const search = req.query.search || "";
+
+  // Getting the `offset` value according to the value of the query parameter `page` in the route.
+  offset = req.query.page ? limit * (req.query.page - 1) : 0;
+
   const books = await Book.findAll({
+    limit: limit,
+    offset: offset,
     where: {
       [Op.or]: [
-        { title: { [Op.like]: `%${search}%` } },
-        { author: { [Op.like]: `%${search}%` } },
-        { genre: { [Op.like]: `%${search}%` } },
-        { year: { [Op.like]: `%${search}%` } },
+        { title: { [Op.like]: '%'+ search +'%' } },
+        { author: { [Op.like]: '%'+ search +'%' } },
+        { genre: { [Op.like]: '%'+ search +'%' } },
+        { year: { [Op.like]: '%'+ search +'%' } },
       ]
     }
   });
-  console.log(search);
+
+  // Get the amount of books stored in the database.
+  const booksCount = await Book.count();
+
+  // A variable called `numOfPages` to calculate the number of pages needed.
+  const numOfPages = Math.ceil(booksCount / limit);
+
+  // A For loop that runs once over the number of pages needed: `numOfPages`.
+  for (let i = 1; i <= numOfPages; i++) {
+
+    if (booksCount > limit) {
+       /**
+        * Check If there are more than the limit of books on the list:
+        * Then create the elements needed to display the pagination buttons and stored in the array `paginationNumbers`.
+        * */ 
+       paginationNumbers.push(i);
+    }
+ }
+
   // Pass all books data to 'index' template
-  res.render("books/index", { books, title: "Books", query: search });
+  res.render("books/index", { books, title: "Books", query: search, pages: numOfPages, buttons: paginationNumbers, activePage: activePage });
+
 }));
 
 /* Create a new book form. */

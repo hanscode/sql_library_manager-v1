@@ -19,10 +19,19 @@ block content
                 th Genre
                 th Year
         tbody
-        each book in books
-            tr
-                td
-                    a(href = "/books/" + book.id)= book.title
-                td= book.author
-                td= book.genre 
-                td= book.year
+            each book in books
+                tr
+                    td
+                        a(href = "/books/" + book.id)= book.title
+                    td= book.author
+                    td= book.genre 
+                    td= book.year
+   
+    div.pagination
+        ul
+            each button in buttons
+                li(class=`${activePage == button ? 'active': ''}`)
+                    if button == 1
+                        a.button.page_btn(href="/books/")= button
+                    else
+                        a.button.page_btn(href=`?page=${button}`)= button
