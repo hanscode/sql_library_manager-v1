@@ -27,6 +27,7 @@ router.get('/', asyncHandler(async (req, res) => {
   // Getting the `offset` value according to the value of the query parameter `page` in the route.
   offset = req.query.page ? limit * (req.query.page - 1) : 0;
 
+  // The `findAndCountAll` method allows to retrieve books (rows) with a limit and offset and the total number of records (count) that match the query.
   const {count, rows} = await Book.findAndCountAll({
     limit: limit,
     offset: offset,
