@@ -17,16 +17,17 @@ function asyncHandler(cb) {
 /* Shows the full list of books */
 router.get('/', asyncHandler(async (req, res) => {
 
-  let limit = 5;   // number of records per page
+  let limit = 7;   // number of records per page
   let offset = 0;
-  let activePage = req.query.page ? req.query.page : 1;
+  const activePage = req.query.page ? req.query.page : 1;
+  const activeSearch = req.query.search ? req.query.search : '';
   const paginationNumbers = [];
   const search = req.query.search || "";
 
   // Getting the `offset` value according to the value of the query parameter `page` in the route.
   offset = req.query.page ? limit * (req.query.page - 1) : 0;
 
-  const books = await Book.findAll({
+  const {count, rows} = await Book.findAndCountAll({
     limit: limit,
     offset: offset,
     where: {
@@ -40,25 +41,25 @@ router.get('/', asyncHandler(async (req, res) => {
   });
 
   // Get the amount of books stored in the database.
-  const booksCount = await Book.count();
+  const books = rows;
 
-  // A variable called `numOfPages` to calculate the number of pages needed.
-  const numOfPages = Math.ceil(booksCount / limit);
+  // A variable called `numOfPages` to calculate the number of pagination pages needed.
+  const numOfPages = Math.ceil(count / limit);
 
   // A For loop that runs once over the number of pages needed: `numOfPages`.
   for (let i = 1; i <= numOfPages; i++) {
 
-    if (booksCount > limit) {
+    if (count > limit) {
        /**
-        * Check If there are more than the limit of books on the list:
-        * Then create the elements needed to display the pagination buttons and stored in the array `paginationNumbers`.
+        * Check If there are more than the limit of books listed per page:
+        * Then create the elements needed to display the pagination buttons and store them in the array `paginationNumbers`.
         * */ 
        paginationNumbers.push(i);
     }
  }
 
   // Pass all books data to 'index' template
-  res.render("books/index", { books, title: "Books", query: search, pages: numOfPages, buttons: paginationNumbers, activePage: activePage });
+  res.render("books/index", { books, title: "Books", query: search, pages: numOfPages, buttons: paginationNumbers, activePage, activeSearch, count });
 
 }));
 

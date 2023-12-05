@@ -11,27 +11,33 @@ block content
             input.search-submit(type='submit', value="search")
             if query
                 a.button.clear-search(href='/books') Reset
-    table
-        thead
-            tr
-                th Title
-                th Author
-                th Genre
-                th Year
-        tbody
-            each book in books
+    
+    if books.length == 0
+        h3 No books were found. Please try again with a different keyword.
+        a.button(href='/books') Go to Homepage &rarr;
+    else
+        small= `Showing ${books.length} of ${count} Books ${activeSearch !== '' ? 'Found!' : ''}`
+        table
+            thead
                 tr
-                    td
-                        a(href = "/books/" + book.id)= book.title
-                    td= book.author
-                    td= book.genre 
-                    td= book.year
-   
-    div.pagination
-        ul
-            each button in buttons
-                li(class=`${activePage == button ? 'active': ''}`)
-                    if button == 1
-                        a.button.page_btn(href="/books/")= button
-                    else
-                        a.button.page_btn(href=`?page=${button}`)= button
+                    th Title
+                    th Author
+                    th Genre
+                    th Year
+            tbody
+                each book in books
+                    tr
+                        td
+                            a(href = "/books/" + book.id)= book.title
+                        td= book.author
+                        td= book.genre 
+                        td= book.year
+
+        div.pagination
+            ul
+                each button in buttons
+                    li(class=`${activePage == button ? 'active': ''}`)
+                        if button == 1
+                            a.button.page_btn(href=`${activeSearch !== '' ? '?search=' + query : '/books/' }`)= button
+                        else
+                            a.button.page_btn(href=`${activeSearch !== '' ? '?search=' + query + '&page=' + button : '?page=' + button}`)= button

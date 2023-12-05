@@ -161,3 +161,11 @@ li:not(.active) a.button.page_btn:hover {
   background-color: #01b189;
   border: 1px solid #01b189;
 }
+
+small {
+  color: #999;
+  margin-bottom: 10px;
+}
+table {
+  margin-top: 10px;
+}
